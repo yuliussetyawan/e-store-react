@@ -16,11 +16,18 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      {result.map((d) => (
-        <div key={d.id}>{d.title}</div>
-      ))}
-    </div>
+    <>
+      <header>My Store</header>
+      <section>
+        <nav>
+          {result.map((d) => (
+            <div key={d.id}>{d.title}</div>
+          ))}
+        </nav>
+        <article>main</article>
+      </section>
+      <footer>footer</footer>
+    </>
   );
 }
 
