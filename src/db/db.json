@@ -1,0 +1,28 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "title": "Fridges"
+    },
+    {
+      "id": 2,
+      "title": "Kettles"
+    },
+    {
+      "id": 3,
+      "title": "Televisions"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "catId": 1,
+      "title": "Beko Integrated Tall Freezer White"
+    },
+    {
+      "id": 2,
+      "catId": 1,
+      "title": "Essentials Undercounter Fridge Silver"
+    }
+  ]
+}

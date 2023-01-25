@@ -1,3 +1,5 @@
+// json-server --watch src/db/db.json --port 3001
+
 import logo from './logo.svg';
 import './App.css';
 
