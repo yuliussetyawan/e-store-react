@@ -5,41 +5,51 @@ import React, { useState } from "react";
 import Category from "./components/Category";
 
 function App() {
-  const [results, setResults] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
 
   React.useEffect(() => {
     fetch("http://localhost:3001/categories")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setResults(data);
+        setCategories(data);
       });
   }, []);
 
-  const renderCategories = () => {
-    const categories = [];
-    for (let i = 0; i < results.length; i++) {
-      categories.push(
-        <Category
-          key={results[i].id}
-          id={results[i].id}
-          title={results[i].title}
-        />
-      );
-    }
-    return categories;
+  const handleCategoryClick = (id) => {
+    fetch("http://localhost:3001/products?catId=" + id)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setProducts(data);
+      });
   };
+
+  const renderCategories = () => {
+    return categories.map((c) => (
+      <Category
+        key={c.id}
+        id = {c.id}
+        title={c.title}
+        onCategoryClick={() => handleCategoryClick(c.id)}
+      />
+    ));
+  };
+
+  const renderProducts = () => {
+    return products.map(p => <div>{p.title}</div>)
+  }
 
   return (
     <>
       <header>My Store</header>
       <section>
-        <nav>
-          {results.map((d) => (
-            <div key={d.id}>{d.title}</div>
-          ))}
-        </nav>
-        <article>main</article>
+        <nav>{categories && renderCategories()}</nav>
+        <article>
+          <h1>Products</h1>
+          {products && renderProducts()}
+        </article>
       </section>
       <footer>footer</footer>
     </>
