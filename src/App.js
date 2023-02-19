@@ -3,18 +3,19 @@
 import "./App.css";
 import React, { useState } from "react";
 import Category from "./components/Category";
+import { fetcher } from "./fetcher";
 
 function App() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
 
   React.useEffect(() => {
-    fetch("http://localhost:3001/categories")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setCategories(data);
-      });
+    const fetchData = async() => {
+      const data = await fetcher("/categories");
+      setCategories(data);
+    };
+    fetchData();
+    
   }, []);
 
   const handleCategoryClick = (id) => {
@@ -30,7 +31,7 @@ function App() {
     return categories.map((c) => (
       <Category
         key={c.id}
-        id = {c.id}
+        id={c.id}
         title={c.title}
         onCategoryClick={() => handleCategoryClick(c.id)}
       />
@@ -38,8 +39,8 @@ function App() {
   };
 
   const renderProducts = () => {
-    return products.map(p => <div>{p.title}</div>)
-  }
+    return products.map((p) => <div>{p.title}</div>);
+  };
 
   return (
     <>
