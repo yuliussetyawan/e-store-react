@@ -3,23 +3,25 @@
 import "./App.css";
 import React, { useState } from "react";
 import Category from "./components/Category";
-import {getCategories, getProducts} from "./fetcher";
+import { getCategories, getProducts } from "./fetcher";
+import CategoryProduct from "./components/categoryProduct";
 
 function App() {
-  const [categories, setCategories] = useState([{errorMessage:' ',data:[]}]);
-  const [products, setProducts] = useState([{errorMessage:' ',data:[]}]);
+  const [categories, setCategories] = useState([
+    { errorMessage: " ", data: [] },
+  ]);
+  const [products, setProducts] = useState([{ errorMessage: " ", data: [] }]);
 
   React.useEffect(() => {
-    const fetchData = async() => {
+    const fetchData = async () => {
       const responseObject = await getCategories();
       setCategories(responseObject);
     };
     fetchData();
-    
   }, []);
 
   const handleCategoryClick = (id) => {
-    const fetchData = async() => {
+    const fetchData = async () => {
       const responseObject = await getProducts(id);
       setProducts(responseObject);
     };
@@ -39,7 +41,9 @@ function App() {
 
   const renderProducts = () => {
     // https://stackoverflow.com/questions/69080597/%C3%97-typeerror-cannot-read-properties-of-undefined-reading-map
-    return products.data?.map((p) => <div>{p.title}</div>);
+    return products.data?.map((p) => (
+      <CategoryProduct {...p}>{p.title} </CategoryProduct>
+    ));
   };
 
   return (
@@ -47,13 +51,16 @@ function App() {
       <header>My Store</header>
       <section>
         <nav>
-        {categories.errorMessage && <div>Error: {categories.errorMessage}</div>}
-        {categories.data && renderCategories()}</nav>
-        <article>
-        {products.errorMessage && <div>Error: {products.errorMessage}</div>}
+          {categories.errorMessage && (
+            <div>Error: {categories.errorMessage}</div>
+          )}
+          {categories.data && renderCategories()}
+        </nav>
+        <main>
+          {products.errorMessage && <div>Error: {products.errorMessage}</div>}
           <h1>Products</h1>
           {products && renderProducts()}
-        </article>
+        </main>
       </section>
       <footer>footer</footer>
     </>
